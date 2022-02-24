@@ -15,6 +15,7 @@ model producto{
   id Int @id @default(autoincrement())
   nombre String
   detallesventa detalleventa[] 
+  estado Boolean
 }
 enum Tipo {
   cliente
@@ -30,7 +31,7 @@ model usuario{
 model venta{
   id Int @id @default(autoincrement())
   clienteFk Int 
-  cliente usuario @relation(fields: [clienteFk],references: [id]) 
+  cliente usuario @relation(fields: [clienteFk],references: [id] ) 
   detalles detalleventa[]
 
 } 
