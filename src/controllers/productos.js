@@ -1,6 +1,5 @@
 const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
-const { validationResult } = require("express-validator");
 const prisma = new PrismaClient();
 
 exports.listarProds = async (req = request, res = response) => {

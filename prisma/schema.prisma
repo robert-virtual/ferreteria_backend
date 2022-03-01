@@ -11,11 +11,25 @@ datasource db {
 }
 //clientes y usuario administrativo
 
+model imagen {
+  id Int @id @default(autoincrement())
+  imagenUrl String?
+  productoPk Int 
+  producto producto  @relation(fields: [productoPk],references: [id])
+  
+}
+
 model producto{
   id Int @id @default(autoincrement())
   nombre String
+  imagenes imagen[]
+  descripcion String?
+  precio Decimal @db.Decimal(7,2)
+  stock Int
+  estado Boolean? @default(true) 
+  // relaciones 
   detallesventa detalleventa[] 
-  estado Boolean
+
 }
 enum Tipo {
   cliente
