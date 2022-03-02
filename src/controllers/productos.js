@@ -16,5 +16,13 @@ exports.crear = async (req = request, res = response) => {
 };
 
 exports.eliminarProd = (req = request, res = response) => {
-  res.json({ msg: "producto eliminado" });
+  await prisma.producto.update({
+    data:{
+      estado:false,
+    },
+    where:{
+      id:req.params.id,
+    }
+  });
+  res.json({ msg: "Producto eliminado" });
 };
