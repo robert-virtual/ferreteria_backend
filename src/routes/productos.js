@@ -3,6 +3,7 @@ const {
   listarProds,
   eliminarProd,
   crear,
+  updateProd,
 } = require("../controllers/productos");
 const { validate } = require("../middlewares/validate");
 
@@ -31,4 +32,11 @@ router.delete(
   eliminarProd
 );
 
+//actualizar
+router.put(
+  "/:id",
+  param("id").isInt().withMessage("Debe proporcionar un id de producto"),
+  validate,
+  updateProd
+);
 module.exports = router;

@@ -26,3 +26,14 @@ exports.eliminarProd = (req = request, res = response) => {
   });
   res.json({ msg: "Producto eliminado" });
 };
+
+exports.updateProd = (req = request, res = response) => {
+  prisma.producto.update({
+    data:req.body,
+    where:{
+      id:req.params.id
+    }
+  })
+  res.json({ msg: "producto actualizado" });
+};
+
