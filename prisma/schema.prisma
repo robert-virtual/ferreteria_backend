@@ -38,7 +38,10 @@ enum Tipo {
 model usuario{
   id Int @id @default(autoincrement())
   nombre String
-  tipo Tipo
+  imagenUrl String?
+  correo String @unique
+  clave String
+  tipo Tipo @default(cliente)
   compras venta[]
 } 
 

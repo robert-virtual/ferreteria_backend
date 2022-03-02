@@ -10,6 +10,7 @@ app.use(express.json());
 
 //rutas
 app.use("/api/productos", require("./routes/productos"));
+app.use("/api/auth", require("./routes/usuarios"));
 
 app.listen(port, () => {
   console.log(`server running on port ${port}...`);

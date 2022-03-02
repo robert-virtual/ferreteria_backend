@@ -1,0 +1,24 @@
+GET http://localhost:3030/api/auth/me
+Authentication:"jsdjhdjshdjshdjhdsj"
+
+####
+POST http://localhost:3030/api/auth/login
+Content-Type: application/json
+
+{
+   "correo":"hola@hola.com",
+    "clave":"hola"
+}
+###
+POST http://localhost:3030/api/auth/registro
+Content-Type: application/json
+
+{
+    "nombre":"hola",
+    "correo":"hola@hola.com",
+    "clave":"hola"
+}
+
+
+###
+DELETE http://localhost:3030/api/auth/logout
