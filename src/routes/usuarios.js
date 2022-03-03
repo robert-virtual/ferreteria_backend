@@ -1,22 +1,19 @@
-const { body, param } = require("express-validator");
-const { login, registrar, logout, me } = require("../controllers/usuarios");
+const { body } = require("express-validator");
+
+const {
+  login,
+  registrar,
+  logout,
+  me,
+  refresh,
+} = require("../controllers/usuarios");
+const { auth } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
-router.get(
-  "/me",
-  (req, res, next) => {
-    // verificar token
-    const token = req.header("Authentication");
-    if (!token) {
-      return res.json({ error: "NO envio token" });
-    }
-    req.user = {};
-    next();
-  },
-  me
-);
+router.get("/me", auth, me);
 
+router.get("/refresh", refresh);
 //login
 router.post(
   "/login",
@@ -35,6 +32,6 @@ router.post(
 );
 
 //cerrar session
-router.delete("/logout/:id", logout);
+router.delete("/logout", auth, logout);
 
 module.exports = router;
