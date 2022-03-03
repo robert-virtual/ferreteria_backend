@@ -14,12 +14,24 @@ exports.me = async (req = request, res = response) => {
   res.json({ usuario });
 };
 
-exports.refresh = (req = request, res = response) => {
+// nuevo token de acceso
+exports.refresh = async (req = request, res = response) => {
   const { refreshToken } = req.body;
   try {
-    let payload = verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-    res.json({ msh: "REFRESH" });
+    let { id, correo } = verifyToken(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+    const user = await prisma.usuario.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (user.refreshToken !== refreshToken) {
+      return res.json({ error: "Token invalido" });
+    }
+    let accessToken = genAccessToken({ id, correo });
+    res.json({ accessToken });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -41,7 +53,14 @@ exports.login = async (req = request, res = response) => {
   }
   let accessToken = genAccessToken(usuario);
   let refreshToken = genRefreshToken(usuario);
-
+  await prisma.usuario.update({
+    data: {
+      refreshToken,
+    },
+    where: {
+      id: usuario.id,
+    },
+  });
   res.json({
     accessToken, // expira
     refreshToken, // no expira
@@ -56,6 +75,15 @@ exports.registrar = async (req = request, res = response) => {
   res.json({ usuario });
 };
 
-exports.logout = (req = request, res = response) => {
+exports.logout = async (req = request, res = response) => {
+  const { id } = req.user;
+  await prisma.usuario.update({
+    data: {
+      refreshToken: null,
+    },
+    where: {
+      id,
+    },
+  });
   res.json("logout");
 };

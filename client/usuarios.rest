@@ -1,5 +1,5 @@
 GET http://localhost:3030/api/auth/me
-Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiaG9sYUBob2xhLmNvbSIsImlhdCI6MTY0NjMyMjMxMSwiZXhwIjoxNjQ2MzIyMzQxfQ.aTu0WmVTptdbKtC0v_srn_S17WqlMKrLt3MX6n1cgHU
+Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiaG9sYUBob2xhLmNvbSIsImlhdCI6MTY0NjMzODk3MywiZXhwIjoxNjQ2MzM5MDkzfQ.6oMBAQG5iYVfG8XGTezHMsIpz6XSYmOTPlEqifiHb6U
 
 ####
 POST http://localhost:3030/api/auth/login
@@ -30,5 +30,9 @@ GET http://localhost:3030/api/auth/refresh
 Content-Type: application/json
  
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiaG9sYUBob2xhLmNvbSIsImlhdCI6MTY0NjMyMTg0OH0.0v7GwYJe1-JZpU1KSD4oA6y8teSgjFPLr19Hzh1t974"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiaG9sYUBob2xhLmNvbSIsImlhdCI6MTY0NjMzODk5OH0.ked-_x7O-KqYVXbjvs4yFq-SLFfZUlUUpUCIRgDAcJI"
 }
+
+####
+DELETE http://localhost:3030/api/auth/logout
+Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiaG9sYUBob2xhLmNvbSIsImlhdCI6MTY0NjMzODk3MywiZXhwIjoxNjQ2MzM5MDkzfQ.6oMBAQG5iYVfG8XGTezHMsIpz6XSYmOTPlEqifiHb6U

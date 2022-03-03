@@ -41,6 +41,7 @@ model usuario{
   imagenUrl String?
   correo String @unique
   clave String
+  refreshToken String?
   tipo Tipo @default(cliente)
   compras venta[]
 } 
