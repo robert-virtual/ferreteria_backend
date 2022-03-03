@@ -1,11 +1,14 @@
-require("dotenv").config();
 const express = require("express");
-const morgan = require("morgan");
 const port = process.env.PORT || 3030;
 const app = express();
 
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+  const morgan = require("morgan");
+  app.use(morgan("dev"));
+}
+
 // middlewares
-app.use(morgan("dev"));
 app.use(express.json());
 
 //rutas
