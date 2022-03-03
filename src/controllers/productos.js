@@ -15,25 +15,24 @@ exports.crear = async (req = request, res = response) => {
   res.json(newProducto);
 };
 
-exports.eliminarProd = (req = request, res = response) => {
+exports.eliminarProd = async (req = request, res = response) => {
   await prisma.producto.update({
-    data:{
-      estado:false,
+    data: {
+      estado: false,
     },
-    where:{
-      id:req.params.id,
-    }
+    where: {
+      id: req.params.id,
+    },
   });
   res.json({ msg: "Producto eliminado" });
 };
 
-exports.updateProd = (req = request, res = response) => {
-  prisma.producto.update({
-    data:req.body,
-    where:{
-      id:req.params.id
-    }
-  })
+exports.updateProd = async (req = request, res = response) => {
+  await prisma.producto.update({
+    data: req.body,
+    where: {
+      id: req.params.id,
+    },
+  });
   res.json({ msg: "producto actualizado" });
 };
-
