@@ -14,7 +14,11 @@ exports.listarProds = async (req = request, res = response) => {
       precio: true,
       stock: true,
       categoria: true,
-      imagenes: true,
+      imagenes: {
+        select: {
+          imagenUrl: true,
+        },
+      },
     },
     where: {
       estado: true,
