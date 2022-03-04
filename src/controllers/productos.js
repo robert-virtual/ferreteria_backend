@@ -3,7 +3,10 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.listarProds = async (req = request, res = response) => {
+  let { inicio, cantidad } = req.query;
   let productos = await prisma.producto.findMany({
+    skip: inicio,
+    take: cantidad,
     select: {
       id: true,
       nombre: true,
