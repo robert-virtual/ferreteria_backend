@@ -3,14 +3,34 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.listarProds = async (req = request, res = response) => {
-  const productos = await prisma.producto.findMany();
+  const productos = await prisma.producto.findMany({
+    select: {
+      id: true,
+      nombre: true,
+      descripcion: true,
+      precio: true,
+      stock: true,
+      categoria: true,
+      imagenes: true,
+    },
+    where: {
+      estado: true,
+    },
+  });
 
   res.json(productos);
 };
 
 exports.crear = async (req = request, res = response) => {
+  let { imagenes } = req.body;
+  req.body.imagenes = undefined;
   let newProducto = await prisma.producto.create({
-    data: req.body,
+    data: {
+      ...req.body,
+      imagenes: {
+        create: imagenes,
+      },
+    },
   });
   res.json(newProducto);
 };

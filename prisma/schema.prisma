@@ -18,7 +18,11 @@ model imagen {
   producto producto  @relation(fields: [productoPk],references: [id])
   
 }
-
+model categoria{
+  id Int @id @default(autoincrement())
+  nombre String
+  productos producto[]
+}
 model producto{
   id Int @id @default(autoincrement())
   nombre String
@@ -27,6 +31,8 @@ model producto{
   precio Decimal @db.Decimal(7,2)
   stock Int
   estado Boolean? @default(true) 
+  categoriaFk Int @default(1)
+  categoria categoria @relation(fields: [categoriaFk],references: [id])
   // relaciones 
   detallesventa detalleventa[] 
 

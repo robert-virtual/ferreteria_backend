@@ -6,7 +6,10 @@ POST http://localhost:3030/api/productos
 Content-Type: application/json
 
 {
-    "nombre":"Producto 2",
-    "precio":500,
-    "stock":10
+    "nombre":"Adhesivo Dap Dynagrip Blanco 5onz",
+    "precio":150,
+    "stock":10,
+    "imagenes":[
+        {"imagenUrl":"09350497.webp"}
+    ]
 }

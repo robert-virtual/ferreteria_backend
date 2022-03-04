@@ -7,6 +7,8 @@ if (process.env.NODE_ENV != "production") {
   const morgan = require("morgan");
   app.use(morgan("dev"));
 }
+// acceso a las imagenes
+app.use(express.static("uploads"));
 
 // middlewares
 app.use(express.json());
