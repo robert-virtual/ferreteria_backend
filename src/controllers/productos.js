@@ -3,7 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.listarProds = async (req = request, res = response) => {
-  const productos = await prisma.producto.findMany({
+  let productos = await prisma.producto.findMany({
     select: {
       id: true,
       nombre: true,
@@ -17,7 +17,13 @@ exports.listarProds = async (req = request, res = response) => {
       estado: true,
     },
   });
-
+  productos = productos.map((p) => {
+    p.imagenes = p.imagenes.map((i) => ({
+      ...i,
+      imagenUrl: `${process.env.APP_URL}/${i.imagenUrl}`,
+    }));
+    return p;
+  });
   res.json(productos);
 };
 

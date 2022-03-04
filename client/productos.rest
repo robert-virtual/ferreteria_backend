@@ -1,7 +1,8 @@
 
+GET http://localhost:3030/api/productos
 
 
-
+###
 POST http://localhost:3030/api/productos
 Content-Type: application/json
 
