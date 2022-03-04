@@ -1,4 +1,6 @@
 const express = require("express");
+const express = require("express");
+const cors = require("cors");
 const port = process.env.PORT || 3030;
 const app = express();
 
@@ -12,6 +14,7 @@ app.use(express.static("uploads"));
 
 // middlewares
 app.use(express.json());
+app.use(cors());
 
 //rutas
 app.use("/api/productos", require("./routes/productos"));
