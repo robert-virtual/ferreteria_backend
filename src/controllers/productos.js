@@ -26,7 +26,6 @@ exports.listarProds = async (req = request, res = response) => {
   });
   productos = productos.map((p) => {
     p.imagenes = p.imagenes.map((i) => ({
-      ...i,
       url: `${process.env.APP_URL}/${i.imagenUrl}`,
     }));
     return p;
