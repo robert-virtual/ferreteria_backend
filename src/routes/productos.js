@@ -5,6 +5,7 @@ const {
   crear,
   updateProd,
   buscar,
+  porCategoria,
 } = require("../controllers/productos");
 const { validate } = require("../middlewares/validate");
 
@@ -16,15 +17,6 @@ router.get(
   query("inicio").isInt({ min: 1 }).toInt().default(0),
   query("cantidad").isInt({ min: 1 }).toInt().default(10),
   listarProds
-);
-
-// buscar
-router.get(
-  "/buscar",
-  query("nombre").isString().isLength({ min: 3 }),
-  query("inicio").isInt({ min: 1 }).toInt().default(0),
-  query("cantidad").isInt({ min: 1 }).toInt().default(10),
-  buscar
 );
 
 // crear

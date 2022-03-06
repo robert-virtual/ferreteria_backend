@@ -1,5 +1,6 @@
 const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
+const { consulta } = require("../helpers/consulta");
 const prisma = new PrismaClient();
 const select = {
   id: true,
@@ -14,30 +15,17 @@ const select = {
     },
   },
 };
-exports.buscar = async (req = request, res = response) => {
-  let { nombre, inicio, cantidad } = req.query;
-  let productos = await prisma.producto.findMany({
-    skip: inicio,
-    take: cantidad,
-    select,
-    where: {
-      nombre: {
-        contains: nombre,
-      },
-      estado: true,
-    },
-  });
-  productos = productos.map(mapProd);
-  res.json(productos);
-};
 
 exports.listarProds = async (req = request, res = response) => {
   let { inicio, cantidad } = req.query;
+  let where = consulta(req.query) || {};
+
   let productos = await prisma.producto.findMany({
     skip: inicio,
     take: cantidad,
     select,
     where: {
+      ...where,
       estado: true,
     },
   });
