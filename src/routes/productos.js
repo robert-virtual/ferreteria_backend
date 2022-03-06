@@ -4,6 +4,7 @@ const {
   eliminarProd,
   crear,
   updateProd,
+  buscar,
 } = require("../controllers/productos");
 const { validate } = require("../middlewares/validate");
 
@@ -23,7 +24,7 @@ router.get(
   query("nombre").isString().isLength({ min: 3 }),
   query("inicio").isInt({ min: 1 }).toInt().default(0),
   query("cantidad").isInt({ min: 1 }).toInt().default(10),
-  listarProds
+  buscar
 );
 
 // crear
