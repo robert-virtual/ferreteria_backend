@@ -1,35 +1,47 @@
 const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const select = {
+  id: true,
+  nombre: true,
+  descripcion: true,
+  precio: true,
+  stock: true,
+  categoria: true,
+  imagenes: {
+    select: {
+      imagenUrl: true,
+    },
+  },
+};
+exports.buscar = async (req = request, res = response) => {
+  let { nombre, inicio, cantidad } = req.query;
+  let productos = await prisma.producto.findMany({
+    skip: inicio,
+    take: cantidad,
+    select,
+    where: {
+      nombre: {
+        contains: nombre,
+      },
+      estado: true,
+    },
+  });
+  productos = productos.map(mapProd);
+  res.json(productos);
+};
 
 exports.listarProds = async (req = request, res = response) => {
   let { inicio, cantidad } = req.query;
   let productos = await prisma.producto.findMany({
     skip: inicio,
     take: cantidad,
-    select: {
-      id: true,
-      nombre: true,
-      descripcion: true,
-      precio: true,
-      stock: true,
-      categoria: true,
-      imagenes: {
-        select: {
-          imagenUrl: true,
-        },
-      },
-    },
+    select,
     where: {
       estado: true,
     },
   });
-  productos = productos.map((p) => {
-    p.imagenes = p.imagenes.map((i) => ({
-      url: `${process.env.APP_URL}/${i.imagenUrl}`,
-    }));
-    return p;
-  });
+  productos = productos.map(mapProd);
   res.json(productos);
 };
 
@@ -68,3 +80,12 @@ exports.updateProd = async (req = request, res = response) => {
   });
   res.json({ msg: "producto actualizado" });
 };
+
+function mapProd(p) {
+  p.imagenes = p.imagenes.map(mapImage);
+  return p;
+}
+
+const mapImage = (i) => ({
+  url: `${process.env.APP_URL}/${i.imagenUrl}`,
+});

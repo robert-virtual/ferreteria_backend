@@ -17,6 +17,15 @@ router.get(
   listarProds
 );
 
+// buscar
+router.get(
+  "/buscar",
+  query("nombre").isString().isLength({ min: 3 }),
+  query("inicio").isInt({ min: 1 }).toInt().default(0),
+  query("cantidad").isInt({ min: 1 }).toInt().default(10),
+  listarProds
+);
+
 // crear
 router.post(
   "/",
