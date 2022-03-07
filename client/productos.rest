@@ -7,10 +7,10 @@ POST http://localhost:3030/api/productos
 Content-Type: application/json
 
 {
-    "nombre":"Accesorio Para Ventilacion De Techo",
-    "precio":385,
+    "nombre":"Aceite Linaza Castor 1 Litro",
+    "precio":175,
     "stock":100,
     "imagenes":[
-        {"imagenUrl":"09190022.webp"}
+        {"imagenUrl":"22050001.webp"}
     ]
 }
