@@ -13,7 +13,7 @@ const router = require("express").Router();
 
 router.get("/me", auth, me);
 
-router.get("/refresh", refresh);
+router.post("/refresh", refresh);
 //login
 router.post(
   "/login",
