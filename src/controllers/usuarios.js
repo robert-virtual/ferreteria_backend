@@ -8,6 +8,11 @@ const prisma = new PrismaClient();
 exports.me = async (req = request, res = response) => {
   const { correo } = req.user;
   const usuario = await prisma.usuario.findUnique({
+    select: {
+      nombre: true,
+      correo: true,
+      imagenUrl: true,
+    },
     where: { correo },
   });
 
