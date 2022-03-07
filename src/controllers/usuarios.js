@@ -72,7 +72,10 @@ exports.registrar = async (req = request, res = response) => {
   clave = await hash(clave);
 
   const usuario = await prisma.usuario.create({ data: { ...req.body, clave } });
-  res.json({ usuario });
+  let accessToken = genAccessToken(usuario);
+  let refreshToken = genRefreshToken(usuario);
+
+  res.json({ usuario, accessToken, refreshToken });
 };
 
 exports.logout = async (req = request, res = response) => {
