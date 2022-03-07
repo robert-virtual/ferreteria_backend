@@ -7,10 +7,10 @@ POST http://localhost:3030/api/productos
 Content-Type: application/json
 
 {
-    "nombre":"Adhesivo Dap Dynagrip Blanco 5onz",
-    "precio":150,
-    "stock":10,
+    "nombre":"Accesorio Para Ventilacion De Techo",
+    "precio":385,
+    "stock":100,
     "imagenes":[
-        {"imagenUrl":"09350497.webp"}
+        {"imagenUrl":"09190022.webp"}
     ]
 }
