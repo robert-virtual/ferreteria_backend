@@ -58,6 +58,31 @@ exports.recuperar = async (req = request, res = response) => {
   }
 };
 
+exports.verificarPin = async (req = request, res = response) => {
+  let { correo, pin } = req.body;
+  const usuario = await prisma.usuario.findUnique({
+    select: {
+      correo: true,
+      pin: true,
+      pinExpire: true,
+    },
+    where: { correo },
+  });
+
+  if (!usuario) {
+    return res.json({ error: "Correo no encontrado" });
+  }
+  if (usuario.pinExpire < Date.now()) {
+    return res.json({ error: "Pin Expiro" });
+  }
+
+  if (pin != usuario.pin) {
+    return res.json({ error: "Pin invalido" });
+  }
+
+  res.json({ msg: "pin ok" });
+};
+
 exports.cambiarClave = async (req = request, res = response) => {
   let { correo, pin, clave } = req.body;
   const usuario = await prisma.usuario.findUnique({

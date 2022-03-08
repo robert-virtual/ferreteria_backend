@@ -8,6 +8,7 @@ const {
   refresh,
   recuperar,
   cambiarClave,
+  verificarPin,
 } = require("../controllers/usuarios");
 const { auth } = require("../middlewares/auth");
 
@@ -35,6 +36,14 @@ router.post(
 
 // recuperar clave
 router.post("/recuperar", body("correo").isEmail(), recuperar);
+// cambiar clave
+router.post(
+  "/pin",
+  body("correo").isEmail(),
+  body("pin").isLength({ min: 4 }),
+  verificarPin
+);
+
 router.post(
   "/clave",
   body("correo").isEmail(),
