@@ -37,7 +37,7 @@ exports.recuperar = async (req = request, res = response) => {
     await transporter.sendMail({
       from: `"🔨Ferreteria" <${process.env.MAIL}>`,
       to: correo,
-      sender: "Pin de recuperacion",
+      subject: "Pin de recuperacion",
       html: getHtml(pin),
     });
     await prisma.usuario.update({
