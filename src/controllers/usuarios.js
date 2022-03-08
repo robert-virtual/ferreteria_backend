@@ -6,6 +6,27 @@ const { genAccessToken, genRefreshToken } = require("../helpers/tokens");
 const { transporter, getHtml, genPin } = require("../config/mailer");
 const prisma = new PrismaClient();
 
+exports.update = async (req = request, res = response) => {
+  const { id } = req.user;
+  try {
+    const usuario = await prisma.usuario.update({
+      data: req.body,
+      where: {
+        id,
+      },
+      select: {
+        correo: true,
+        id: true,
+        imagenUrl: true,
+        nombre: true,
+      },
+    });
+    res.json({ usuario });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};
+
 exports.me = async (req = request, res = response) => {
   const { correo } = req.user;
   const usuario = await prisma.usuario.findUnique({
@@ -194,5 +215,5 @@ exports.logout = async (req = request, res = response) => {
       id,
     },
   });
-  res.json("logout");
+  res.json({ msg: "Session cerrada" });
 };
