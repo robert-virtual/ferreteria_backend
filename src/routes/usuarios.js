@@ -6,6 +6,8 @@ const {
   logout,
   me,
   refresh,
+  recuperar,
+  cambiarClave,
 } = require("../controllers/usuarios");
 const { auth } = require("../middlewares/auth");
 
@@ -29,6 +31,16 @@ router.post(
   body("correo").isEmail(),
   body("clave").isLength({ min: 3 }),
   registrar
+);
+
+// recuperar clave
+router.post("/recuperar", body("correo").isEmail(), recuperar);
+router.post(
+  "/clave",
+  body("correo").isEmail(),
+  body("pin").isLength({ min: 4 }),
+  body("clave").isString().isLength({ min: 3 }),
+  cambiarClave
 );
 
 //cerrar session

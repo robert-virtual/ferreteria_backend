@@ -48,6 +48,8 @@ model usuario{
   correo String @unique
   clave String
   refreshToken String?
+  pin String?
+  pinExpire BigInt?
   tipo Tipo @default(cliente)
   compras venta[]
 } 

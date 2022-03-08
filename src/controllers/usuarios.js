@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const { hash, verify } = require("argon2");
 const { verify: verifyToken } = require("jsonwebtoken");
 const { genAccessToken, genRefreshToken } = require("../helpers/tokens");
+const { transporter, getHtml, genPin } = require("../config/mailer");
 const prisma = new PrismaClient();
 
 exports.me = async (req = request, res = response) => {
@@ -17,6 +18,81 @@ exports.me = async (req = request, res = response) => {
   });
 
   res.json({ usuario });
+};
+
+exports.recuperar = async (req = request, res = response) => {
+  const { correo } = req.body;
+  try {
+    const usuario = await prisma.usuario.findUnique({
+      select: {
+        correo: true,
+      },
+      where: { correo },
+    });
+
+    if (!usuario) {
+      return res.json({ error: "Correo no encontrado" });
+    }
+    const pin = genPin();
+    await transporter.sendMail({
+      from: `"🔨Ferreteria" <${process.env.MAIL}>`,
+      to: correo,
+      sender: "Pin de recuperacion",
+      html: getHtml(pin),
+    });
+    await prisma.usuario.update({
+      data: {
+        pin,
+        pinExpire: Date.now() + 1000 * 60 * 5,
+      },
+      where: {
+        correo,
+      },
+    });
+
+    res.json({
+      msg: `Se envio el pin de recuperacion a ${correo}, por favor revisa tu correo e ingresa el pin, en 5 minutos el pin se invalidara `,
+    });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};
+
+exports.cambiarClave = async (req = request, res = response) => {
+  let { correo, pin, clave } = req.body;
+  const usuario = await prisma.usuario.findUnique({
+    select: {
+      correo: true,
+      pin: true,
+      pinExpire: true,
+    },
+    where: { correo },
+  });
+
+  if (!usuario) {
+    return res.json({ error: "Correo no encontrado" });
+  }
+  if (usuario.pinExpire < Date.now()) {
+    return res.json({ error: "Pin Expiro" });
+  }
+
+  if (pin != usuario.pin) {
+    return res.json({ error: "Pin invalido" });
+  }
+
+  clave = await hash(clave);
+  await prisma.usuario.update({
+    data: {
+      clave,
+    },
+    where: {
+      correo,
+    },
+  });
+
+  res.json({
+    msg: `Clave actualizada`,
+  });
 };
 
 // nuevo token de acceso
