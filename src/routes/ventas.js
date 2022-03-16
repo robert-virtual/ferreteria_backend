@@ -1,6 +1,7 @@
 
 const { query } = require("express-validator");
-const { listarVentas } = require("../controllers/ventas");
+const { listarVentas, listarVentasUsuario } = require("../controllers/ventas");
+const { auth } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
@@ -8,10 +9,10 @@ const router = require("express").Router();
 router.post("/");
 
 // obtener rango
-router.get("/listar", query("inicio").isInt().default(0),query("cantidad").isInt().default(20) , listarVentas);
+router.get("/listar",auth,query("inicio").isInt().default(0),query("cantidad").isInt().default(20) , listarVentas);
 
 
 // obtener compras de usuario
-router.get("/");
+router.get("/",auth, listarVentasUsuario);
 
 module.exports = router;

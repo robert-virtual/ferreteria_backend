@@ -9,3 +9,13 @@ exports.listarVentas = async (req, res) =>{
     })
     res.json({ventas})
 } 
+exports.listarVentasUsuario = async (req, res) =>{
+    const { id } = req.user;
+    
+    const ventas = await prisma.venta.findMany({
+        where: {
+           clienteFk: id, 
+        }
+    })
+    res.json({ventas})
+} 
