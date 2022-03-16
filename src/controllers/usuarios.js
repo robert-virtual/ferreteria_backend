@@ -30,6 +30,11 @@ exports.me = async (req = request, res = response) => {
       nombre: true,
       correo: true,
       imagenUrl: true,
+      telefono: true,
+      bloque: true,
+      ciudad: true,
+      colonia: true,
+      direccion: true,
     },
     where: { correo },
   });
