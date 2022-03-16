@@ -19,6 +19,7 @@ app.use(cors());
 app.use("/api/productos", require("./routes/productos"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/usuarios", require("./routes/usuarios"));
+app.use("/api/ventas", require("./routes/ventas"));
 
 app.listen(port, () => {
   console.log(`server running on port ${port}...`);
