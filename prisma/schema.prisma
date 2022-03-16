@@ -41,12 +41,23 @@ enum Tipo {
   cliente
   administrador
 }
+
+model direccion{
+  id Int @id @default(autoincrement())
+  bloque String?
+  ciudad String?
+  descripcion String?
+  usuarioId Int 
+  usuario usuario @relation(fields: [usuarioId],references: [id])
+}
 model usuario{
   id Int @id @default(autoincrement())
   nombre String
   imagenUrl String?
   correo String @unique
   clave String
+  telefono String?
+  direcciones direccion[] 
   refreshToken String?
   pin String?
   pinExpire BigInt?
