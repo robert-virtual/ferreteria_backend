@@ -25,7 +25,7 @@ exports.crearVenta = async (req, res) => {
   const { id } = req.user;
   productos = req.body.productos;
 
-  const ventas = await prisma.venta.create({
+  const venta = await prisma.venta.create({
     data: {
       clienteFk: id,
       detalles: {
@@ -33,5 +33,5 @@ exports.crearVenta = async (req, res) => {
       },
     },
   });
-  res.json({ ventas });
+  res.json({ venta });
 };
