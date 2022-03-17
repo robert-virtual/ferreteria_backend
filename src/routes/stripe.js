@@ -28,9 +28,14 @@ router.post(
       console.log(`❌ Error message: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-    const {
-      billing_details: { email },
-    } = event.charges.data[0];
+    console.log(event);
+    try {
+      var {
+        billing_details: { email },
+      } = event.charges.data[0];
+    } catch (error) {
+      return res.json({ error: error.message });
+    }
 
     if (event.type === "payment_intent.payment_failed") {
       await transporter.sendMail({
@@ -47,7 +52,11 @@ router.post(
       });
     }
     if (event.type === "payment_intent.succeeded") {
-      const { receipt_url } = event.charges.data[0];
+      try {
+        var { receipt_url } = event.charges.data[0];
+      } catch (error) {
+        return res.json({ error: error.message });
+      }
       await transporter.sendMail({
         from: `"Factura Ferreteria Movil <${process.env.MAIL}>"`,
         to: email,
