@@ -45,15 +45,15 @@ enum Tipo {
 
 model usuario{
   id Int @id @default(autoincrement())
-  nombre String
-  imagenUrl String?
+  nombre String @default("")
+  imagenUrl String @default("")
   correo String @unique
-  clave String
-  telefono String?
-  bloque String?
-  ciudad String?
-  colonia String?
-  direccion String?
+  clave String @default("")
+  telefono String @default("")
+  bloque String @default("")
+  ciudad String @default("")
+  colonia String @default("")
+  direccion String @default("")
   refreshToken String?
   pin String?
   pinExpire BigInt?
