@@ -1,19 +1,24 @@
 const express = require("express");
-const cors = require("cors");
-const port = process.env.PORT || 3030;
 const app = express();
-
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
   const morgan = require("morgan");
   app.use(morgan("dev"));
 }
+const cors = require("cors");
+const port = process.env.PORT || 3030;
+
 // acceso a las imagenes
 app.use(express.static("uploads"));
 
 // middlewares
-app.use(express.json());
+// importante el orden
+// stripe debe estart antes de express.json
 app.use(cors());
+app.use("/", require("./routes/stripe"));
+app.use(express.json());
+
+// middlewares
 
 //rutas
 app.use("/api/productos", require("./routes/productos"));
