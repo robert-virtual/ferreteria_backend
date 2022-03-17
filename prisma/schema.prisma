@@ -67,6 +67,7 @@ model venta{
   cliente usuario @relation(fields: [clienteFk],references: [id] ) 
   detalles detalleventa[]
 
+
 } 
 
 model detalleventa{
@@ -74,6 +75,7 @@ model detalleventa{
   ventaId Int 
   venta venta @relation(fields: [ventaId],references: [id])
   productoFk Int
+  cantidad Int 
   producto producto @relation(fields: [productoFk],references: [id])
 } 
 

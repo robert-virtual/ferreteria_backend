@@ -28,7 +28,6 @@ router.post(
       console.log(`❌ Error message: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-    console.log(event);
     try {
       var {
         billing_details: { email },
