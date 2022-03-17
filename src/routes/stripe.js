@@ -1,5 +1,6 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const { transporter } = require("../config/mailer");
 const prisma = new PrismaClient();
 const router = require("express").Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -10,8 +11,12 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 router.post(
   "/webhook",
+  (req, res, next) => {
+    console.log("webhook");
+    next();
+  },
   express.raw({ type: "application/json" }),
-  (req, res) => {
+  async (req, res) => {
     const sig = req.headers["stripe-signature"];
 
     let event;
@@ -23,18 +28,34 @@ router.post(
       console.log(`❌ Error message: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+    const {
+      billing_details: { email },
+    } = event.charges.data[0];
 
+    if (event.type === "payment_intent.payment_failed") {
+      await transporter.sendMail({
+        from: `"Pago fallido Ferreteria Movil <${process.env.MAIL}>"`,
+        to: email,
+        text: "El pago de tu compra fallo no se realizo ningun cargo en tu targeta",
+      });
+    }
     if (event.type === "payment_intent.canceled") {
-      // enviar correo al cliente de pago cancelado
+      await transporter.sendMail({
+        from: `"Pago cancelado Ferreteria Movil <${process.env.MAIL}>"`,
+        to: email,
+        text: "El pago de tu compra fue cacelado no se realizo ningun cargo en tu targeta",
+      });
     }
     if (event.type === "payment_intent.succeeded") {
-      // enviar correo al cliente de pago confirmado
-      console.log("pago exitoso");
-      console.log(event);
+      const { receipt_url } = event.charges.data[0];
+      await transporter.sendMail({
+        from: `"Factura Ferreteria Movil <${process.env.MAIL}>"`,
+        to: email,
+        html: {
+          path: receipt_url,
+        },
+      });
     }
-    // Successfully constructed event
-    console.log("✅ Success:", event.id);
-
     // Return a response to acknowledge receipt of the event
     res.json({ received: true });
   }
@@ -44,6 +65,7 @@ router.use(express.json());
 
 router.post("/create-payment-intent", async (req, res) => {
   let productos = [{ id: 0, cantidad: 0 }]; // structura que se espera revicir en el req body
+  const { email } = req.body;
   productos = req.body.productos;
   const prods = await prisma.producto.findMany({
     where: {
@@ -71,6 +93,7 @@ router.post("/create-payment-intent", async (req, res) => {
       amount: lps * 100, // convertir la cantidad en centavos
       currency: "HNl",
       payment_method_types: ["card"],
+      receipt_email: email,
     });
     res.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
