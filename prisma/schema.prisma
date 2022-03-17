@@ -66,7 +66,7 @@ model venta{
   clienteFk Int 
   cliente usuario @relation(fields: [clienteFk],references: [id] ) 
   detalles detalleventa[]
-
+  fecha DateTime? @default(now())
 
 } 
 

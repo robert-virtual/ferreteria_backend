@@ -16,6 +16,20 @@ exports.listarVentasUsuario = async (req, res) => {
     where: {
       clienteFk: id,
     },
+    select: {
+      detalles: {
+        select: {
+          cantidad: true,
+          producto: {
+            select: {
+              imagenes: true,
+              nombre: true,
+              precio: true,
+            },
+          },
+        },
+      },
+    },
   });
   res.json({ ventas });
 };
