@@ -36,7 +36,7 @@ exports.listarVentasUsuario = async (req, res) => {
   });
   ventas = ventas.map((v) => {
     v.detalles = v.detalles.map((d) => {
-      d.producto = d.producto.imagenes.map(mapImage);
+      d.producto.imagenes = d.producto.imagenes.map(mapImage);
       return d;
     });
     return v;
