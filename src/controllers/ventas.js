@@ -27,7 +27,6 @@ exports.listarVentasUsuario = async (req, res) => {
               id: true,
               imagenes: true,
               nombre: true,
-              precio: true,
             },
           },
         },
