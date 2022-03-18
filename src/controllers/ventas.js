@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const { mapImage } = require("./productos");
 const prisma = new PrismaClient();
 exports.listarVentas = async (req, res) => {
   const { inicio, cantidad } = req.query;
@@ -12,7 +13,7 @@ exports.listarVentas = async (req, res) => {
 exports.listarVentasUsuario = async (req, res) => {
   const { id } = req.user;
 
-  const ventas = await prisma.venta.findMany({
+  let ventas = await prisma.venta.findMany({
     where: {
       clienteFk: id,
     },
@@ -30,6 +31,13 @@ exports.listarVentasUsuario = async (req, res) => {
         },
       },
     },
+  });
+  ventas = ventas.map((v) => {
+    v.detalles = v.detalles.map((d) => {
+      d.producto = d.producto.imagenes.map(mapImage);
+      return d;
+    });
+    return v;
   });
   res.json({ ventas });
 };
