@@ -77,6 +77,7 @@ model detalleventa{
   productoFk Int
   cantidad Int 
   producto producto @relation(fields: [productoFk],references: [id])
+  precio Float @default(0)
 } 
 
 

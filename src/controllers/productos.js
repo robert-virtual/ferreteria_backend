@@ -69,10 +69,10 @@ exports.updateProd = async (req = request, res = response) => {
   res.json({ msg: "producto actualizado" });
 };
 
-function mapProd(p) {
+module.mapProd = (p) => {
   p.imagenes = p.imagenes.map(mapImage);
   return p;
-}
+};
 
 const mapImage = (i) => ({
   url: `${process.env.APP_URL}/${i.imagenUrl}`,
