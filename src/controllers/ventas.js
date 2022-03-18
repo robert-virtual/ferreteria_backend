@@ -20,6 +20,7 @@ exports.listarVentasUsuario = async (req, res) => {
     select: {
       detalles: {
         select: {
+          precio: true,
           cantidad: true,
           producto: {
             select: {
