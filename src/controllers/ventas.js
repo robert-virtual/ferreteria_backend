@@ -44,10 +44,37 @@ exports.listarVentasUsuario = async (req, res) => {
 };
 
 exports.crearVenta = async (req, res) => {
-  let productos = [{ productoFk: 0, cantidad: 0 }];
+  /**
+   * @typedef { {productoFk:number,cantidad:number,precio:number} } Detalles
+   */
+  /**
+   * @type Detalles[]
+   */
+  let productos;
   const { id } = req.user;
+  // en este punto los productos recibidos
+  // solo tienen productoFk y cantidad
   productos = req.body.productos;
 
+  // selecionamos los productos
+  // para verificar el precio
+  const prods = await prisma.producto.findMany({
+    where: {
+      id: {
+        in: productos.map((p) => p.productoFk),
+      },
+    },
+    select: {
+      id: true,
+      precio: true,
+    },
+  });
+  // agregamos la propioedad precio a los productos
+  productos = productos.map((p) => ({
+    ...p,
+    precio: prods.find((pd) => pd.id == p.productoFk).precio,
+  }));
+  // crear la venta
   const venta = await prisma.venta.create({
     data: {
       clienteFk: id,
