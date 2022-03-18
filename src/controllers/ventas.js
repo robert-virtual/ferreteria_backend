@@ -18,6 +18,7 @@ exports.listarVentasUsuario = async (req, res) => {
       clienteFk: id,
     },
     select: {
+      fecha: true,
       detalles: {
         select: {
           precio: true,
