@@ -35,6 +35,8 @@ exports.me = async (req = request, res = response) => {
       ciudad: true,
       colonia: true,
       direccion: true,
+      latitude: true,
+      longitude: true,
     },
     where: { correo },
   });
