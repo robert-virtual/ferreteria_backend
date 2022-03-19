@@ -59,10 +59,14 @@ model usuario{
   correo String @unique
   clave String @default("")
   telefono String @default("")
+  // info de ubicacion
   bloque String @default("")
   ciudad String @default("")
   colonia String @default("")
   direccion String @default("")
+  latitude String @default("")
+  longitude String @default("")
+  // info de ubicacion
   refreshToken String?
   pin String?
   pinExpire BigInt?
