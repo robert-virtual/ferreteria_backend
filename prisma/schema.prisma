@@ -35,13 +35,22 @@ model producto{
   categoria categoria @relation(fields: [categoriaFk],references: [id])
   // relaciones 
   detallesventa detalleventa[] 
+  detallescarrito detallecarrito[]
 
 }
 enum Tipo {
   cliente
   administrador
 }
-
+model detallecarrito{
+  id Int @id @default(autoincrement())
+  usuarioFk Int 
+  usuario usuario @relation(fields: [usuarioFk], references: [id])
+  productoFk Int 
+  producto producto @relation(fields: [productoFk], references: [id])
+  cantidad Int 
+  fecha DateTime @default(now())
+}
 
 model usuario{
   id Int @id @default(autoincrement())
@@ -57,6 +66,7 @@ model usuario{
   refreshToken String?
   pin String?
   pinExpire BigInt?
+  carrito detallecarrito[]
   tipo Tipo @default(cliente)
   compras venta[]
 } 
