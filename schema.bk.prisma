@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,6 +9,7 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+//clientes y usuario administrativo
 
 model imagen {
   id Int @id @default(autoincrement())
@@ -60,8 +64,8 @@ model usuario{
   ciudad String @default("")
   colonia String @default("")
   direccion String @default("")
-  latitude Int @default(0)
-  longitude Int @default(0)
+  latitude String @default("")
+  longitude String @default("")
   // info de ubicacion
   refreshToken String?
   pin String?
@@ -69,7 +73,6 @@ model usuario{
   carrito detallecarrito[]
   tipo Tipo @default(cliente)
   compras venta[]
- 
 } 
 
 model venta{
@@ -90,3 +93,5 @@ model detalleventa{
   producto producto @relation(fields: [productoFk],references: [id])
   precio Float @default(0)
 } 
+
+
