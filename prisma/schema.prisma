@@ -60,8 +60,8 @@ model usuario{
   ciudad String @default("")
   colonia String @default("")
   direccion String @default("")
-  latitude Int @default(0)
-  longitude Int @default(0)
+  latitude Float @default(0)
+  longitude Float @default(0)
   // info de ubicacion
   refreshToken String?
   pin String?
