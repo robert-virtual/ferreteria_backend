@@ -1,0 +1,14 @@
+
+
+POST http://localhost:3030/api/ventas
+Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29ycmVvIjoicm9iZXJ0QHJvYmVydC5jb20iLCJpYXQiOjE2NDc4OTA4NDksImV4cCI6MTY0Nzg5MTQ0OX0.piiS56cEPqt0nEhzHMqmxPlqs5aWySFtYAN9B6hyGYo
+Content-Type: application/json
+
+{
+    "productos":[
+        {
+            "productoFk":1,
+            "cantidad":1
+        }
+    ]
+}
