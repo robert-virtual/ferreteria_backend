@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,7 +6,6 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-//clientes y usuario administrativo
 
 model imagen {
   id Int @id @default(autoincrement())
@@ -35,30 +31,45 @@ model producto{
   categoria categoria @relation(fields: [categoriaFk],references: [id])
   // relaciones 
   detallesventa detalleventa[] 
+  detallescarrito detallecarrito[]
 
 }
 enum Tipo {
   cliente
   administrador
 }
-
+model detallecarrito{
+  id Int @id @default(autoincrement())
+  usuarioFk Int 
+  usuario usuario @relation(fields: [usuarioFk], references: [id])
+  productoFk Int 
+  producto producto @relation(fields: [productoFk], references: [id])
+  cantidad Int 
+  fecha DateTime @default(now())
+}
 
 model usuario{
   id Int @id @default(autoincrement())
-  nombre String
-  imagenUrl String?
+  nombre String @default("")
+  imagenUrl String @default("")
   correo String @unique
-  clave String
-  telefono String?
-  bloque String?
-  ciudad String?
-  colonia String?
-  direccion String?
+  clave String @default("")
+  telefono String @default("")
+  // info de ubicacion
+  bloque String @default("")
+  ciudad String @default("")
+  colonia String @default("")
+  direccion String @default("")
+  latitude Float @default(0)
+  longitude Float @default(0)
+  // info de ubicacion
   refreshToken String?
   pin String?
   pinExpire BigInt?
+  carrito detallecarrito[]
   tipo Tipo @default(cliente)
   compras venta[]
+ 
 } 
 
 model venta{
@@ -66,6 +77,7 @@ model venta{
   clienteFk Int 
   cliente usuario @relation(fields: [clienteFk],references: [id] ) 
   detalles detalleventa[]
+  fecha DateTime? @default(now())
 
 } 
 
@@ -74,7 +86,7 @@ model detalleventa{
   ventaId Int 
   venta venta @relation(fields: [ventaId],references: [id])
   productoFk Int
+  cantidad Int 
   producto producto @relation(fields: [productoFk],references: [id])
+  precio Decimal @db.Decimal(7,2) @default(0)
 } 
-
-

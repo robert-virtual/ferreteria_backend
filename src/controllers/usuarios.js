@@ -1,9 +1,11 @@
 const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
+const { cleanObj } = require("../helpers/funciones");
 const prisma = new PrismaClient();
 
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
+  req.body = cleanObj(req.body);
   try {
     const usuario = await prisma.usuario.update({
       data: req.body,
@@ -35,6 +37,8 @@ exports.me = async (req = request, res = response) => {
       ciudad: true,
       colonia: true,
       direccion: true,
+      latitude: true,
+      longitude: true,
     },
     where: { correo },
   });

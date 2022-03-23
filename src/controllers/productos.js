@@ -17,20 +17,24 @@ const select = {
 };
 
 exports.listarProds = async (req = request, res = response) => {
-  let { inicio, cantidad } = req.query;
-  let where = consulta(req.query) || {};
+  try {
+    let { inicio, cantidad } = req.query;
+    let where = consulta(req.query) || {};
 
-  let productos = await prisma.producto.findMany({
-    skip: inicio,
-    take: cantidad,
-    select,
-    where: {
-      ...where,
-      estado: true,
-    },
-  });
-  productos = productos.map(mapProd);
-  res.json(productos);
+    let productos = await prisma.producto.findMany({
+      skip: inicio,
+      take: cantidad,
+      select,
+      where: {
+        ...where,
+        estado: true,
+      },
+    });
+    productos = productos.map(mapProd);
+    res.json(productos);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 exports.crear = async (req = request, res = response) => {
@@ -74,6 +78,11 @@ function mapProd(p) {
   return p;
 }
 
-const mapImage = (i) => ({
-  url: `${process.env.APP_URL}/${i.imagenUrl}`,
-});
+function mapImage(i) {
+  return {
+    url: `${process.env.APP_URL}/${i.imagenUrl}`,
+  };
+}
+
+exports.mapImage = mapImage;
+exports.mapProd = mapProd;

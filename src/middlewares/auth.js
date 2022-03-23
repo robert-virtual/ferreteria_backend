@@ -11,6 +11,6 @@ exports.auth = (req, res, next) => {
     req.user = payload;
     next();
   } catch (error) {
-    return res.json({ error: error.message });
+    return res.status(401).json({ error: error.message });
   }
 };
