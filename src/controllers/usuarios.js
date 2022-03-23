@@ -49,6 +49,7 @@ exports.me = async (req = request, res = response) => {
 exports.obtenerCliente = async (req = request, res = response) => {
   const usuario = await prisma.usuario.findMany({
     select: {
+      id:true,
       nombre: true,
       correo: true,
       imagenUrl: true,
@@ -57,7 +58,8 @@ exports.obtenerCliente = async (req = request, res = response) => {
       ciudad: true,
       colonia: true,
       direccion: true,
-      
+      longitude: true,
+      latitude: true,
     },
     where: { tipo:"cliente" },
   });
