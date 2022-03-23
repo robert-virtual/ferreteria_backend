@@ -41,3 +41,22 @@ exports.me = async (req = request, res = response) => {
 
   res.json({ usuario });
 };
+
+exports.obtenerCliente = async (req = request, res = response) => {
+  const usuario = await prisma.usuario.findMany({
+    select: {
+      nombre: true,
+      correo: true,
+      imagenUrl: true,
+      telefono: true,
+      bloque: true,
+      ciudad: true,
+      colonia: true,
+      direccion: true,
+      
+    },
+    where: { tipo:"cliente" },
+  });
+
+  res.json({ usuario });
+};
