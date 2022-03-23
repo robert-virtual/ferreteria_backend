@@ -57,7 +57,8 @@ exports.obtenerCliente = async (req = request, res = response) => {
       ciudad: true,
       colonia: true,
       direccion: true,
-      
+      longitude: true,
+      latitude: true,
     },
     where: { tipo:"cliente" },
   });
