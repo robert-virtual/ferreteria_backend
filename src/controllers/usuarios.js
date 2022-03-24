@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
-  console.log(req.files[0]);
   req.body = cleanObj(req.body);
   try {
     const usuario = await prisma.usuario.update({
