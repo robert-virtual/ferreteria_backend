@@ -45,7 +45,7 @@ exports.me = async (req = request, res = response) => {
     },
     where: { correo },
   });
-
+  usuario.imagenUrl = process.env.APP_URL + usuario.imagenUrl;
   res.json({ usuario });
 };
 
