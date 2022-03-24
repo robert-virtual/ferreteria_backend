@@ -8,7 +8,10 @@ exports.update = async (req = request, res = response) => {
   req.body = cleanObj(req.body);
   try {
     const usuario = await prisma.usuario.update({
-      data: req.body,
+      data: {
+        imagenUrl: req.files[0].filename,
+        ...req.body,
+      },
       where: {
         id,
       },
@@ -49,7 +52,7 @@ exports.me = async (req = request, res = response) => {
 exports.obtenerCliente = async (req = request, res = response) => {
   const usuario = await prisma.usuario.findMany({
     select: {
-      id:true,
+      id: true,
       nombre: true,
       correo: true,
       imagenUrl: true,
@@ -61,7 +64,7 @@ exports.obtenerCliente = async (req = request, res = response) => {
       longitude: true,
       latitude: true,
     },
-    where: { tipo:"cliente" },
+    where: { tipo: "cliente" },
   });
 
   res.json({ usuario });
