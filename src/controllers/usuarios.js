@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const { cleanObj } = require("../helpers/funciones");
 const prisma = new PrismaClient();
 const fs = require("fs");
+const path = require("path");
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
   if (req.files[0].filename) {
@@ -12,7 +13,9 @@ exports.update = async (req = request, res = response) => {
         imagenUrl: true,
       },
     });
-    fs.unlink(`uploads/${usuario.imagenUrl}`);
+    if (usuario.imagenUrl) {
+      fs.unlinkSync(path.join(__dirname, `../../uploads/${usuario.imagenUrl}`));
+    }
   }
   req.body = cleanObj(req.body);
   try {
