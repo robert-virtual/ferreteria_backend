@@ -2,9 +2,18 @@ const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { cleanObj } = require("../helpers/funciones");
 const prisma = new PrismaClient();
-
+const fs = require("fs");
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
+  if (req.files[0].filename) {
+    let usuario = await prisma.usuario.findUnique({
+      where: { id },
+      select: {
+        imagenUrl: true,
+      },
+    });
+    fs.unlink(`uploads/${usuario.imagenUrl}`);
+  }
   req.body = cleanObj(req.body);
   try {
     const usuario = await prisma.usuario.update({
