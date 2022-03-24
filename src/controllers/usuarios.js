@@ -5,12 +5,13 @@ const prisma = new PrismaClient();
 
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
+  console.log(req.files[0]);
   req.body = cleanObj(req.body);
   try {
     const usuario = await prisma.usuario.update({
       data: {
-        imagenUrl: req.files[0].filename,
         ...req.body,
+        imagenUrl: req.files[0].filename,
       },
       where: {
         id,
@@ -22,6 +23,8 @@ exports.update = async (req = request, res = response) => {
         nombre: true,
       },
     });
+    usuario.imagenUrl =
+      usuario.imagenUrl && `${process.env.APP_URL}/${usuario.imagenUrl}`;
     res.json({ usuario });
   } catch (error) {
     res.json({ error: error.message });
@@ -45,7 +48,8 @@ exports.me = async (req = request, res = response) => {
     },
     where: { correo },
   });
-  usuario.imagenUrl = process.env.APP_URL + usuario.imagenUrl;
+  usuario.imagenUrl =
+    usuario.imagenUrl && `${process.env.APP_URL}/${usuario.imagenUrl}`;
   res.json({ usuario });
 };
 
