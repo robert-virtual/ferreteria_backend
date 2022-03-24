@@ -5,12 +5,12 @@ exports.auth = (req, res, next) => {
   try {
     const token = req.header("Authentication");
     if (!token) {
-      return res.json({ error: "No envio token" });
+      return res.json({ error: "No envio jwt" });
     }
     let payload = verify(token, process.env.ACCESS_TOKEN_SECRET);
     req.user = payload;
     next();
   } catch (error) {
-    return res.status(401).json({ error: error.message });
+    return res.json({ error: error.message });
   }
 };
