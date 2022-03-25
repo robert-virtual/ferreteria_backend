@@ -2,7 +2,7 @@ const { sign } = require("jsonwebtoken");
 
 exports.genAccessToken = ({ id, correo }) => {
   return sign({ id, correo }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "10m",
+    expiresIn: "20m",
   });
 };
 
