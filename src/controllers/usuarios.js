@@ -85,6 +85,7 @@ exports.obtenerCliente = async (req = request, res = response) => {
     if (u.imagenUrl) {
       u.imagenUrl = `${process.env.APP_URL}/${u.imagenUrl}`;
     }
+    return u;
   });
   res.json({ usuarios });
 };
