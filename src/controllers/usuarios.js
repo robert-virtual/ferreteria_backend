@@ -65,7 +65,7 @@ exports.me = async (req = request, res = response) => {
 };
 
 exports.obtenerCliente = async (req = request, res = response) => {
-  const usuario = await prisma.usuario.findMany({
+  let usuarios = await prisma.usuario.findMany({
     select: {
       id: true,
       nombre: true,
@@ -81,6 +81,10 @@ exports.obtenerCliente = async (req = request, res = response) => {
     },
     where: { tipo: "cliente" },
   });
-
-  res.json({ usuario });
+  usuarios = usuarios.map((u) => {
+    if (u.imagenUrl) {
+      u.imagenUrl = `${process.env.APP_URL}/${u.imagenUrl}`;
+    }
+  });
+  res.json({ usuarios });
 };
