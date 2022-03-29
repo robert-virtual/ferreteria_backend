@@ -7,6 +7,33 @@ exports.listarVentas = async (req, res) => {
   const ventas = await prisma.venta.findMany({
     skip: inicio,
     take: cantidad,
+    select: {
+      id: true,
+      detalles: {
+        select: {
+          precio: true,
+          cantidad: true,
+          producto: {
+            select: {
+              nombre: true,
+              imagenes: {
+                select: {
+                  imagenUrl: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      fecha: true,
+      cliente: {
+        select: {
+          nombre: true,
+          correo: true,
+          direccion: true,
+        },
+      },
+    },
   });
   res.json({ ventas });
 };
