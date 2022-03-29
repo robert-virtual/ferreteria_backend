@@ -9,6 +9,7 @@ exports.listarVentas = async (req, res) => {
     take: cantidad,
     select: {
       id: true,
+      entregado: true,
       detalles: {
         select: {
           precio: true,
