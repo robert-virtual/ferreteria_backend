@@ -1,4 +1,5 @@
 const { param, body, query } = require("express-validator");
+const { upload } = require("../config/multer");
 const {
   listarProds,
   eliminarProd,
@@ -28,6 +29,7 @@ router.post(
   body("precio").isNumeric(),
   body("stock").isInt({ min: 1 }),
   validate,
+  upload.array("imagenes"),
   crear
 );
 

@@ -38,8 +38,11 @@ exports.listarProds = async (req = request, res = response) => {
 };
 
 exports.crear = async (req = request, res = response) => {
-  let { imagenes } = req.body;
-  req.body.imagenes = undefined;
+  let imagenes = [];
+  req.files[0];
+  req.files.forEach((f) => {
+    imagenes.push({ imagenUrl: f.filename });
+  });
   let newProducto = await prisma.producto.create({
     data: {
       ...req.body,
