@@ -48,7 +48,7 @@ Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiaG9
 
 
 ####
-GET http://localhost:3030/api/auth/refresh
+POST http://localhost:3030/api/auth/refresh
 Content-Type: application/json
  
 {

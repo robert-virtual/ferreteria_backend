@@ -1,5 +1,7 @@
-
-
+GET http://localhost:3030/api/ventas/listar
+Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29ycmVvIjoicm9iZXJ0QHJvYmVydC5jb20iLCJpYXQiOjE2NDg2Njg4MjMsImV4cCI6MTY0ODY3MDAyM30.ruSWD9UJ2VWW4G0Em0ke4pdfDfD1Q9C5OVQ6oWMm6zI
+ 
+###
 POST http://localhost:3030/api/ventas
 Authentication: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY29ycmVvIjoicm9iZXJ0QHJvYmVydC5jb20iLCJpYXQiOjE2NDc4OTA4NDksImV4cCI6MTY0Nzg5MTQ0OX0.piiS56cEPqt0nEhzHMqmxPlqs5aWySFtYAN9B6hyGYo
 Content-Type: application/json

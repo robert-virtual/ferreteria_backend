@@ -5,8 +5,6 @@ const {
   eliminarProd,
   crear,
   updateProd,
-  buscar,
-  porCategoria,
 } = require("../controllers/productos");
 const { validate } = require("../middlewares/validate");
 

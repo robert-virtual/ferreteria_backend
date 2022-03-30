@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const { mapImage } = require("./productos");
 const prisma = new PrismaClient();
+
+// obtener todas las ventas realizadas
 exports.listarVentas = async (req, res) => {
   const { inicio, cantidad } = req.query;
 
@@ -46,6 +48,8 @@ exports.listarVentas = async (req, res) => {
 
   res.json({ ventas });
 };
+
+// ventas un solo usuario
 exports.listarVentasUsuario = async (req, res) => {
   const { id } = req.user;
 
@@ -80,6 +84,7 @@ exports.listarVentasUsuario = async (req, res) => {
   res.json({ ventas });
 };
 
+// crear venta
 exports.crearVenta = async (req, res) => {
   /**
    * @typedef { {productoFk:number,cantidad:number,precio:number} } Detalles
