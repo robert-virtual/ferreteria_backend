@@ -125,7 +125,7 @@ exports.refresh = async (req = request, res = response) => {
     let accessToken = genAccessToken({ id, correo });
     res.json({ accessToken });
   } catch (error) {
-    res.json({ error: error.message });
+    res.json({ error: "refresh token invalido", details: error.message });
   }
 };
 

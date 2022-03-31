@@ -1,5 +1,5 @@
 
-GET http://localhost:3030/api/productos?inicio=1&cantidad=1
+GET http://localhost:3030/api/productos?inicio=1&cantidad=5
 
 
 ###
