@@ -30,7 +30,7 @@ exports.listarProds = async (req = request, res = response) => {
         estado: true,
       },
     });
-    productos = productos.map(mapProd);
+
     res.json(productos);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -41,7 +41,7 @@ exports.crear = async (req = request, res = response) => {
   let imagenes = [];
   req.files[0];
   req.files.forEach((f) => {
-    imagenes.push({ imagenUrl: f.filename });
+    imagenes.push({ imagenUrl: f.location });
   });
   let newProducto = await prisma.producto.create({
     data: {
@@ -75,17 +75,3 @@ exports.updateProd = async (req = request, res = response) => {
   });
   res.json({ msg: "producto actualizado" });
 };
-
-function mapProd(p) {
-  p.imagenes = p.imagenes.map(mapImage);
-  return p;
-}
-
-function mapImage(i) {
-  return {
-    url: `${process.env.APP_URL}/${i.imagenUrl}`,
-  };
-}
-
-exports.mapImage = mapImage;
-exports.mapProd = mapProd;

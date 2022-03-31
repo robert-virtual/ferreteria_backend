@@ -2,8 +2,6 @@ const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { cleanObj } = require("../helpers/funciones");
 const prisma = new PrismaClient();
-const fs = require("fs");
-const path = require("path");
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
   if (req.files[0].filename) {
@@ -35,8 +33,7 @@ exports.update = async (req = request, res = response) => {
         nombre: true,
       },
     });
-    usuario.imagenUrl =
-      usuario.imagenUrl && `${process.env.APP_URL}/${usuario.imagenUrl}`;
+
     res.json({ usuario });
   } catch (error) {
     res.json({ error: error.message });
@@ -60,8 +57,7 @@ exports.me = async (req = request, res = response) => {
     },
     where: { correo },
   });
-  usuario.imagenUrl =
-    usuario.imagenUrl && `${process.env.APP_URL}/${usuario.imagenUrl}`;
+
   res.json({ usuario });
 };
 
@@ -82,11 +78,6 @@ exports.obtenerCliente = async (req = request, res = response) => {
     },
     where: { tipo: "cliente" },
   });
-  usuarios = usuarios.map((u) => {
-    if (u.imagenUrl) {
-      u.imagenUrl = `${process.env.APP_URL}/${u.imagenUrl}`;
-    }
-    return u;
-  });
+
   res.json({ usuarios });
 };
