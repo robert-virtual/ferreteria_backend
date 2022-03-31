@@ -8,7 +8,7 @@ const s3 = new S3({
   apiVersion: "2006-03-01",
 });
 // necesario AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY
-export const upload = multer({
+exports.upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: "rcc-test-nodejs-upload",
