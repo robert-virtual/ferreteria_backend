@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const { upload } = require("../config/multer");
+const { upload } = require("../config/s3Upload");
 const { me, update, obtenerCliente } = require("../controllers/usuarios");
 const { auth } = require("../middlewares/auth");
 

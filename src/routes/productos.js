@@ -1,5 +1,5 @@
 const { param, body, query } = require("express-validator");
-const { upload } = require("../config/multer");
+const { upload } = require("../config/s3Upload");
 const {
   listarProds,
   eliminarProd,
