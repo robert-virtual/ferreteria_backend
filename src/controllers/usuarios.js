@@ -14,7 +14,8 @@ exports.update = async (req = request, res = response) => {
       },
     });
     if (usuario.imagenUrl) {
-      fs.unlinkSync(path.join(__dirname, `../../uploads/${usuario.imagenUrl}`));
+      // borra de s3
+      //fs.unlinkSync(path.join(__dirname, `../../uploads/${usuario.imagenUrl}`));
     }
   }
   req.body = cleanObj(req.body);
@@ -22,7 +23,7 @@ exports.update = async (req = request, res = response) => {
     const usuario = await prisma.usuario.update({
       data: {
         ...req.body,
-        imagenUrl: req.files[0].filename,
+        imagenUrl: req.files[0].location,
       },
       where: {
         id,
