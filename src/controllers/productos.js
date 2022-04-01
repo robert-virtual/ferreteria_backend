@@ -38,6 +38,7 @@ exports.listarProds = async (req = request, res = response) => {
 };
 
 exports.crear = async (req = request, res = response) => {
+  const { nombre, precio, stock, descripcion } = req.body;
   let imagenes = [];
   req.files[0];
   req.files.forEach((f) => {
@@ -45,7 +46,10 @@ exports.crear = async (req = request, res = response) => {
   });
   let newProducto = await prisma.producto.create({
     data: {
-      ...req.body,
+      nombre,
+      precio: Number(precio),
+      stock: Number(stock),
+      descripcion,
       imagenes: {
         create: imagenes,
       },
