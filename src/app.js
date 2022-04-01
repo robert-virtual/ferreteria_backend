@@ -23,6 +23,7 @@ app.use(express.json());
 
 //rutas
 app.use("/api/productos", require("./routes/productos"));
+app.use("/api/categorias", require("./routes/categorias"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/ventas", require("./routes/ventas"));

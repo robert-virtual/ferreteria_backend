@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
-const { consulta } = require("../helpers/consulta");
 const prisma = new PrismaClient();
+const { consulta } = require("../helpers/consulta");
 const select = {
   id: true,
   nombre: true,
