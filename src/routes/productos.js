@@ -21,11 +21,17 @@ router.get(
 // crear
 router.post(
   "/",
+  (req, res, next) => {
+    console.log(req.body);
+    console.log(req.headers);
+
+    next();
+  },
   body("nombre")
     .isLength({ min: 3 })
     .withMessage("El nombre de tener minimo 3 caracteres "),
-  body("precio").isNumeric(),
-  body("stock").isInt({ min: 1 }),
+  body("precio").toFloat().isNumeric(),
+  body("stock").toInt().isInt({ min: 1 }),
   validate,
   upload.array("imagenes"),
   crear

@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const { mapImage } = require("./productos");
 const prisma = new PrismaClient();
 
 // obtener todas las ventas realizadas
@@ -38,13 +37,6 @@ exports.listarVentas = async (req, res) => {
       },
     },
   });
-  ventas = ventas.map((v) => {
-    v.detalles = v.detalles.map((d) => {
-      d.producto.imagenes = d.producto.imagenes.map(mapImage);
-      return d;
-    });
-    return v;
-  });
 
   res.json({ ventas });
 };
@@ -74,13 +66,7 @@ exports.listarVentasUsuario = async (req, res) => {
       },
     },
   });
-  ventas = ventas.map((v) => {
-    v.detalles = v.detalles.map((d) => {
-      d.producto.imagenes = d.producto.imagenes.map(mapImage);
-      return d;
-    });
-    return v;
-  });
+
   res.json({ ventas });
 };
 
