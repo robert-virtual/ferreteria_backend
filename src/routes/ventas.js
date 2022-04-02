@@ -23,6 +23,6 @@ router.get(
 
 // obtener compras de usuario
 router.get("/", auth, listarVentasUsuario);
-router.put("/", auth, ventaEntregada);
+router.put("/:id", auth, ventaEntregada);
 
 module.exports = router;
