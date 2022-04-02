@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 const { upload } = require("../config/s3Upload");
 const { me, update, obtenerCliente } = require("../controllers/usuarios");
-const { auth } = require("../middlewares/auth");
+const { auth, adminAuth } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
@@ -14,6 +14,6 @@ router.put(
   body("longitude").toFloat(),
   update
 );
-router.get("/", auth, obtenerCliente);
+router.get("/", adminAuth, obtenerCliente);
 
 module.exports = router;

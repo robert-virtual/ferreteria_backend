@@ -6,6 +6,7 @@ const {
   crear,
   updateProd,
 } = require("../controllers/productos");
+const { adminAuth } = require("../middlewares/auth");
 const { validate } = require("../middlewares/validate");
 
 const router = require("express").Router();
@@ -19,11 +20,12 @@ router.get(
 );
 
 // crear
-router.post("/", upload.array("imagenes"), crear);
+router.post("/", adminAuth, upload.array("imagenes"), crear);
 
 // eliminar
 router.delete(
   "/:id",
+  adminAuth,
   param("id").isInt().withMessage("Debe proporcionar un id de producto"),
   validate,
   eliminarProd
@@ -32,6 +34,7 @@ router.delete(
 //actualizar
 router.put(
   "/:id",
+  adminAuth,
   param("id").isInt().withMessage("Debe proporcionar un id de producto"),
   validate,
   updateProd

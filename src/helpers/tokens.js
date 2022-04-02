@@ -1,8 +1,8 @@
 const { sign } = require("jsonwebtoken");
 
-exports.genAccessToken = ({ id, correo, rid }) => {
+exports.genAccessToken = ({ id, correo, rid, admin = false }) => {
   // rid = refresh token id
-  return sign({ id, correo, rid }, process.env.ACCESS_TOKEN_SECRET, {
+  return sign({ id, correo, rid, admin }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "20m",
   });
 };

@@ -11,6 +11,7 @@ exports.listarVentas = async (req, res) => {
     select: {
       id: true,
       entregado: true,
+      fechaEntrega: true,
       detalles: {
         select: {
           precio: true,
@@ -126,7 +127,7 @@ exports.ventaEntregada = async (req, res) => {
         id: Number(id),
       },
     });
-    res.json(venta.entregado);
+    res.json(venta);
   } catch (error) {
     console.warn(error);
     res.status(500).json({ error: error.message });

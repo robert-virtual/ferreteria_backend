@@ -5,7 +5,7 @@ const {
   crearVenta,
   ventaEntregada,
 } = require("../controllers/ventas");
-const { auth } = require("../middlewares/auth");
+const { auth, adminAuth } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
@@ -15,7 +15,7 @@ router.post("/", auth, crearVenta);
 // obtener rango
 router.get(
   "/listar",
-  auth,
+  adminAuth,
   query("inicio").isInt().default(0),
   query("cantidad").isInt().default(20),
   listarVentas
@@ -23,6 +23,6 @@ router.get(
 
 // obtener compras de usuario
 router.get("/", auth, listarVentasUsuario);
-router.put("/:id", auth, ventaEntregada);
+router.put("/:id", adminAuth, ventaEntregada);
 
 module.exports = router;

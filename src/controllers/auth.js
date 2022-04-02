@@ -116,16 +116,23 @@ exports.refresh = async (req = request, res = response) => {
     );
     const user = await prisma.usuario.findUnique({
       select: {
+        tipo: true,
         refreshTokens: true,
       },
       where: {
         id,
       },
     });
-    if (!user.refreshTokens.includes(refreshToken)) {
+    let valido = user.refreshTokens.find(({ token }) => token == refreshToken);
+    if (!valido) {
       return res.json({ error: "Token invalido" });
     }
-    let accessToken = genAccessToken({ id, correo });
+    let accessToken = genAccessToken({
+      id,
+      correo,
+      rid: valido.id,
+      admin: user.tipo == "administrador",
+    });
     res.json({ accessToken });
   } catch (error) {
     res.json({ error: "refresh token invalido", details: error.message });
@@ -153,7 +160,11 @@ exports.login = async (req = request, res = response) => {
       userId: usuario.id,
     },
   });
-  let accessToken = genAccessToken({ ...usuario, rid });
+  let accessToken = genAccessToken({
+    ...usuario,
+    rid,
+    admin: usuario.tipo == "administrador",
+  });
 
   res.json({
     accessToken, // expira
