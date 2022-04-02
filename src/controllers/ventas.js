@@ -113,3 +113,20 @@ exports.crearVenta = async (req, res) => {
   });
   res.json({ venta });
 };
+
+exports.ventaEntregada = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const venta = await prisma.venta.update({
+      data: {
+        entregado: true,
+      },
+      where: {
+        id,
+      },
+    });
+    res.json(venta.entregado);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};

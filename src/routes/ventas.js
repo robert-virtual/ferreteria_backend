@@ -3,6 +3,7 @@ const {
   listarVentas,
   listarVentasUsuario,
   crearVenta,
+  ventaEntregada,
 } = require("../controllers/ventas");
 const { auth } = require("../middlewares/auth");
 
@@ -22,5 +23,6 @@ router.get(
 
 // obtener compras de usuario
 router.get("/", auth, listarVentasUsuario);
+router.put("/", auth, ventaEntregada);
 
 module.exports = router;
