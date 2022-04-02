@@ -78,6 +78,7 @@ model venta{
   cliente usuario @relation(fields: [clienteFk],references: [id] ) 
   detalles detalleventa[]
   entregado Boolean @default(false)
+  fechaEntrega DateTime?
   fecha DateTime? @default(now())
 
 } 

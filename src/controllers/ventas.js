@@ -120,6 +120,7 @@ exports.ventaEntregada = async (req, res) => {
     const venta = await prisma.venta.update({
       data: {
         entregado: true,
+        fechaEntrega: Date.now().toString(),
       },
       where: {
         id,
