@@ -108,7 +108,7 @@ exports.cambiarClave = async (req = request, res = response) => {
 
 // nuevo token de acceso
 exports.refresh = async (req = request, res = response) => {
-  const { refreshToken } = req.body;
+  const { refreshToken } = req.query;
   try {
     let { id, correo } = verifyToken(
       refreshToken,

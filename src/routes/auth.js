@@ -13,7 +13,7 @@ const { auth } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
-router.post("/refresh", refresh);
+router.get("/refresh", refresh);
 //login
 router.post(
   "/login",
