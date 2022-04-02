@@ -115,11 +115,14 @@ exports.refresh = async (req = request, res = response) => {
       process.env.REFRESH_TOKEN_SECRET
     );
     const user = await prisma.usuario.findUnique({
+      select: {
+        refreshTokens: true,
+      },
       where: {
         id,
       },
     });
-    if (user.refreshToken !== refreshToken) {
+    if (!user.refreshTokens.includes(refreshToken)) {
       return res.json({ error: "Token invalido" });
     }
     let accessToken = genAccessToken({ id, correo });
@@ -143,16 +146,15 @@ exports.login = async (req = request, res = response) => {
   if (!valido) {
     return res.json({ error: "Credenciales incorrectas" });
   }
-  let accessToken = genAccessToken(usuario);
   let refreshToken = genRefreshToken(usuario);
-  await prisma.usuario.update({
+  let { id: rid } = await prisma.usuarioToken.create({
     data: {
-      refreshToken,
-    },
-    where: {
-      id: usuario.id,
+      token: refreshToken,
+      userId: usuario.id,
     },
   });
+  let accessToken = genAccessToken({ ...usuario, rid });
+
   res.json({
     accessToken, // expira
     refreshToken, // no expira
@@ -161,24 +163,32 @@ exports.login = async (req = request, res = response) => {
 
 exports.registrar = async (req = request, res = response) => {
   let { clave } = req.body;
-  clave = await hash(clave);
+  try {
+    clave = await hash(clave);
 
-  const usuario = await prisma.usuario.create({ data: { ...req.body, clave } });
-  let accessToken = genAccessToken(usuario);
-  let refreshToken = genRefreshToken(usuario);
+    const usuario = await prisma.usuario.create({
+      data: { ...req.body, clave },
+    });
+    let refreshToken = genRefreshToken(usuario);
+    let { id: rid } = await prisma.usuarioToken.create({
+      data: {
+        token: refreshToken,
+        userId: usuario.id,
+      },
+    });
 
-  res.json({ usuario, accessToken, refreshToken });
+    let accessToken = genAccessToken({ ...usuario, rid });
+
+    res.json({ usuario, accessToken, refreshToken });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
 };
 
 exports.logout = async (req = request, res = response) => {
-  const { id } = req.user;
-  await prisma.usuario.update({
-    data: {
-      refreshToken: null,
-    },
-    where: {
-      id,
-    },
-  });
+  const { rid } = req.user;
+
+  await prisma.usuarioToken.delete({ where: { id: rid } });
+
   res.json({ msg: "Session cerrada" });
 };

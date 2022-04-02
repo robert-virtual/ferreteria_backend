@@ -47,7 +47,12 @@ model detallecarrito{
   cantidad Int 
   fecha DateTime @default(now())
 }
-
+model usuarioToken{
+  id Int @id @default(autoincrement())
+  token String
+  userId Int
+  usuario usuario @relation(fields: [userId],references: [id])
+}
 model usuario{
   id Int @id @default(autoincrement())
   nombre String @default("")
@@ -63,7 +68,7 @@ model usuario{
   latitude Float @default(0)
   longitude Float @default(0)
   // info de ubicacion
-  refreshToken String?
+  refreshTokens usuarioToken[]
   pin String?
   pinExpire BigInt?
   carrito detallecarrito[]
