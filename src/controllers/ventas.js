@@ -120,14 +120,15 @@ exports.ventaEntregada = async (req, res) => {
     const venta = await prisma.venta.update({
       data: {
         entregado: true,
-        fechaEntrega: Date.now().toString(),
+        fechaEntrega: new Date(),
       },
       where: {
-        id,
+        id: Number(id),
       },
     });
     res.json(venta.entregado);
   } catch (error) {
-    res.json({ error: error.message });
+    console.warn(error);
+    res.status(500).json({ error: error.message });
   }
 };
