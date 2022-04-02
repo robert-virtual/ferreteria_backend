@@ -32,11 +32,5 @@ router.delete(
 );
 
 //actualizar
-router.put(
-  "/:id",
-  adminAuth,
-  param("id").isInt().withMessage("Debe proporcionar un id de producto"),
-  validate,
-  updateProd
-);
+router.put("/", adminAuth, upload.array("imagenes"), validate, updateProd);
 module.exports = router;
