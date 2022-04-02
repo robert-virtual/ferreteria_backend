@@ -27,6 +27,7 @@ app.use("/api/categorias", require("./routes/categorias"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/ventas", require("./routes/ventas"));
+app.use("/api/imagenes", require("./routes/imagenes"));
 
 app.listen(port, () => {
   console.log(`server running on port ${port}...`);
