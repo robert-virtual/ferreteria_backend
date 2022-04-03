@@ -71,6 +71,7 @@ exports.eliminarProd = async (req = request, res = response) => {
 
 exports.updateProd = async (req = request, res = response) => {
   let { id, nombre, descripcion } = req.body;
+  descripcion = descripcion || undefined;
   let precio = req.body.precio ? Number(req.body.precio) : undefined;
   let stock = req.body.stock ? Number(req.body.stock) : undefined;
   id = Number(id);
