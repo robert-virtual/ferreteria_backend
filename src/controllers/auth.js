@@ -125,7 +125,7 @@ exports.refresh = async (req = request, res = response) => {
     });
     let valido = user.refreshTokens.find(({ token }) => token == refreshToken);
     if (!valido) {
-      return res.json({ error: "Token invalido" });
+      return res.status(401).json({ error: "Token invalido" });
     }
     let accessToken = genAccessToken({
       id,
