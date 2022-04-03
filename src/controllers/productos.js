@@ -31,7 +31,7 @@ exports.listarProds = async (req = request, res = response) => {
       },
     });
 
-    res.json(productos);
+    res.json(productos.reverse());
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

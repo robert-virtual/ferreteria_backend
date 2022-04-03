@@ -39,7 +39,7 @@ exports.listarVentas = async (req, res) => {
     },
   });
 
-  res.json({ ventas });
+  res.json({ ventas: ventas.reverse() });
 };
 
 // ventas un solo usuario
@@ -68,7 +68,7 @@ exports.listarVentasUsuario = async (req, res) => {
     },
   });
 
-  res.json({ ventas });
+  res.json({ ventas: ventas.reverse() });
 };
 
 // crear venta
@@ -111,6 +111,18 @@ exports.crearVenta = async (req, res) => {
         create: productos,
       },
     },
+  });
+  productos.forEach(async (p) => {
+    await prisma.producto.update({
+      data: {
+        stock: {
+          decrement: p.cantidad,
+        },
+      },
+      where: {
+        id: p.productoFk,
+      },
+    });
   });
   res.json({ venta });
 };
