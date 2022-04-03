@@ -3,15 +3,15 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const uuid = require("uuid").v4;
 const { S3 } = require("aws-sdk");
-
+const bucket = "rcc-test-nodejs-upload";
 const s3 = new S3({
   apiVersion: "2006-03-01",
 });
 // necesario AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY
 exports.upload = multer({
   storage: multerS3({
-    s3: s3,
-    bucket: "rcc-test-nodejs-upload",
+    s3,
+    bucket,
     acl: "public-read",
     metadata: (req, file, cb) => {
       cb(null, {
@@ -24,3 +24,5 @@ exports.upload = multer({
     },
   }),
 });
+exports.s3 = s3;
+exports.bucket = bucket;

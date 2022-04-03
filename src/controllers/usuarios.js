@@ -1,7 +1,9 @@
 const { request, response } = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { cleanObj } = require("../helpers/funciones");
+const { s3, bucket } = require("../config/s3Upload");
 const prisma = new PrismaClient();
+
 exports.update = async (req = request, res = response) => {
   const { id } = req.user;
   if (req.files[0].filename) {
@@ -13,6 +15,15 @@ exports.update = async (req = request, res = response) => {
     });
     if (usuario.imagenUrl) {
       // borra de s3
+      s3.deleteObject(
+        { Bucket: bucket, Key: usuario.imagenUrl },
+        (err, data) => {
+          if (err) {
+            console.log(err);
+          }
+          console.log(data);
+        }
+      );
       //fs.unlinkSync(path.join(__dirname, `../../uploads/${usuario.imagenUrl}`));
     }
   }
