@@ -14,7 +14,7 @@ const router = require("express").Router();
 // listar
 router.get(
   "/",
-  query("inicio").isInt({ min: 1 }).toInt().default(0),
+  query("inicio").isInt({ min: 0 }).toInt().default(0),
   query("cantidad").isInt({ min: 1 }).toInt().default(10),
   listarProds
 );
