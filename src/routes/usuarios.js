@@ -15,10 +15,12 @@ router.put(
   body("longitude").toFloat(),
   update
 );
+// lsista de clientes
 router.get(
   "/",
   query("inicio").toInt().default(0),
   query("cantidad").toInt().default(5),
+  query("nombre").default(""),
   validate,
   adminAuth,
   obtenerClientes

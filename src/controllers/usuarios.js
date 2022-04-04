@@ -73,10 +73,16 @@ exports.me = async (req = request, res = response) => {
 };
 
 exports.obtenerClientes = async (req = request, res = response) => {
-  const { inicio, cantidad } = req.query;
+  const { inicio, cantidad, nombre } = req.query;
+  // roberto castillo
   let usuarios = await prisma.usuario.findMany({
     skip: inicio,
     take: cantidad,
+    where: {
+      nombre: {
+        contains: nombre,
+      },
+    },
     select: {
       id: true,
       nombre: true,
