@@ -72,7 +72,7 @@ exports.me = async (req = request, res = response) => {
   res.json({ usuario });
 };
 
-exports.obtenerCliente = async (req = request, res = response) => {
+exports.obtenerClientes = async (req = request, res = response) => {
   let usuarios = await prisma.usuario.findMany({
     select: {
       id: true,
@@ -87,7 +87,6 @@ exports.obtenerCliente = async (req = request, res = response) => {
       longitude: true,
       latitude: true,
     },
-    where: { tipo: "cliente" },
   });
 
   res.json({ usuarios });
