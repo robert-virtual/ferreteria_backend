@@ -73,7 +73,10 @@ exports.me = async (req = request, res = response) => {
 };
 
 exports.obtenerClientes = async (req = request, res = response) => {
+  const { inicio, cantidad } = req.query;
   let usuarios = await prisma.usuario.findMany({
+    skip: inicio,
+    take: cantidad,
     select: {
       id: true,
       nombre: true,
@@ -89,5 +92,5 @@ exports.obtenerClientes = async (req = request, res = response) => {
     },
   });
 
-  res.json({ usuarios });
+  res.json({ usuarios: usuarios.reverse() });
 };
