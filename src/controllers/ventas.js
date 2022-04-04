@@ -34,6 +34,8 @@ exports.listarVentas = async (req, res) => {
           nombre: true,
           correo: true,
           direccion: true,
+          latitude: true,
+          longitude: true,
         },
       },
     },
