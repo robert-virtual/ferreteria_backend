@@ -38,7 +38,7 @@ exports.listarProds = async (req = request, res = response) => {
 };
 
 exports.crear = async (req = request, res = response) => {
-  const { nombre, precio, stock, descripcion } = req.body;
+  const { nombre, precio, stock, descripcion, categoriaFk } = req.body;
   let imagenes = [];
   req.files.forEach((f) => {
     imagenes.push({ imagenUrl: f.location });
@@ -48,6 +48,7 @@ exports.crear = async (req = request, res = response) => {
       nombre,
       precio: Number(precio),
       stock: Number(stock),
+      categoriaFk: Number(categoriaFk),
       descripcion,
       imagenes: {
         create: imagenes,
@@ -74,22 +75,25 @@ exports.updateProd = async (req = request, res = response) => {
   descripcion = descripcion || undefined;
   let precio = req.body.precio ? Number(req.body.precio) : undefined;
   let stock = req.body.stock ? Number(req.body.stock) : undefined;
+  let categoriaFk = req.body.categoriaFk
+    ? Number(req.body.categoriaFk)
+    : undefined;
   id = Number(id);
-  req.body = { nombre, descripcion, precio, stock };
+  req.body = { nombre, descripcion, precio, stock, categoriaFk };
   let imagenes = [];
-  req.files.forEach((f) => {
-    imagenes.push({ imagenUrl: f.location });
-  });
-
+  if (req.files.length) {
+    req.files.forEach((f) => {
+      imagenes.push({ imagenUrl: f.location });
+    });
+    req.body.imagenes = {
+      create: imagenes,
+    };
+  }
+  console.log(req.body);
   await prisma.producto.update({
-    data: {
-      ...req.body,
-      imagenes: {
-        create: imagenes,
-      },
-    },
+    data: req.body,
     where: {
-      id,
+      id: Number(id),
     },
   });
   res.json({ msg: "producto actualizado" });

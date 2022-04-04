@@ -32,5 +32,5 @@ router.delete(
 );
 
 //actualizar
-router.put("/", adminAuth, upload.array("imagenes"), validate, updateProd);
+router.put("/", adminAuth, upload.array("imagenes"), updateProd);
 module.exports = router;
