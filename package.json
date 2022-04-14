@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node .",
-    "dev": "npx nodemon ."
+    "dev": "npx nodemon .",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
+    "jest": "^27.5.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "prisma": "^3.11.0"
